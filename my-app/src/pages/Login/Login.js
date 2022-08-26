@@ -1,13 +1,54 @@
-import React from 'react'
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react'
+
 import logo from '../../assets/images/icon-librarynode.png'
 import './Login.scss'
 
 const Login = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [messEmail, setMessEmail] = useState('')
+    const [messPassword, setMessPassword] = useState('')
+   
 
-    console.log(watch("example")); // watch input value by passing the name of it
+    const handleOnChange = (e) => {
+
+        const { name, value } = e?.target
+        if (name == 'email') {
+            setEmail(value)
+        } else {
+            setPassword(value)
+        }
+    }
+    const handelOnsubmit = (e) => {
+        e.preventDefault()
+        const isBool = email.toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                )
+         //EMAIL   
+         
+        if (email === '') {
+            setMessEmail('This filed is required!')
+            
+        } else if(email!==''&& isBool==null) {
+            setMessEmail('Email is invalid!')
+            
+        }else{
+            setMessEmail('')
+        }
+        //PASSWORD
+        if(password ===''){
+            setMessPassword('This filed is required!')
+       
+        }else{
+            setMessPassword('')
+        }
+       if(messEmail==''&&messPassword==''&&email!==''&&password!==''){
+     
+        localStorage.setItem('user', JSON.stringify({email,password}));
+       }
+    }
+    
     return (
         <div className='login-form'>
             <div className='login-form__logo'>
@@ -17,19 +58,19 @@ const Login = () => {
                 <span>Wellcome to Besolution</span>
             </div>
             <div className='login-form__process'>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* register your input into the hook by invoking the "register" function */}
-                    <input defaultValue="" {...register("email")} />
+                <form onSubmit={handelOnsubmit} >
 
-                    {/* errors will return when field validation fails  */}
-                    {errors.exampleRequired && <span>This field is required</span>}
-                    {/* register your input into the hook by invoking the "register" function */}
-                    <input defaultValue="" {...register("password")} />
-
-                    {/* errors will return when field validation fails  */}
-                    {errors.exampleRequired && <span>This field is required</span>}
-
-                    <input type="submit" value='Login' />
+                    <input name="email"
+                        onChange={e => handleOnChange(e)}
+                        value={email}
+                    />
+                    <p className='mess'>{messEmail}</p>
+                    <input name="password"
+                        onChange={e => handleOnChange(e)}
+                        value={password}
+                    />
+                    <p className='mess'>{messPassword}</p>
+                    <input type='submit' defaultValue='Login' />
                 </form>
             </div>
         </div>

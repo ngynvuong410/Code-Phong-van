@@ -3,7 +3,7 @@ import {Container,Row,Col} from 'react-bootstrap';
 import './Header.scss'
 import logo from '../../assets/images/header.png'
 const Header = () => {
-  console.log(logo);
+  
   return (
     <div className='header'>
       <Container fluid>
