@@ -1,0 +1,37 @@
+.search-form{
+    padding: 15px 0;
+    form{
+        display: flex;
+        align-items: center;
+      
+    }
+    &__input{
+        width: 80%;
+        input{
+            display: inline-block;
+            height: 50px;
+            width: 100%;
+            padding-left: 10px;
+            outline: none;
+            border: 1px solid #80808070;
+            border-radius: 3px;
+        }
+    }
+    select{
+        flex: 1;
+        height: 50px;
+        margin:0 10px;
+        font-family: "Montserrat", "Roboto";
+        font-size: 13px;
+        text-transform: capitalize;
+        text-align: center;
+        outline: none;
+        border: 1px solid #80808070;
+        border-radius: 3px;
+        option{
+            padding: 10px 0;
+        }
+       
+    }
+   
+} 
