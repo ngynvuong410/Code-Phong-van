@@ -26,15 +26,15 @@ const User = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const infoUser = JSON.parse(localStorage.getItem('user'))
-    if (infoUser) {
+    const token = localStorage.getItem('token')
+    if (token) {
 
       //SAVE LISTUSER FOR LOCAL
       localStorage.setItem('listUser', JSON.stringify(Users))
       setListUser(Users)
       setListUserToShow(Users)
     } else {
-      navigate("/");
+       navigate("/");
     }
 
   }, [])
