@@ -99,13 +99,15 @@
             padding: 10px 15px;
             outline: none;
         }
-        p{
+
+        p {
             font-family: "Montserrat", "Roboto";
             margin-bottom: 0;
             position: relative;
             font-size: 13px;
             color: red;
         }
+
         button {
             width: 100%;
             border: 1px solid #8080801c;
@@ -115,6 +117,41 @@
             &:hover {
                 background-color: #e7f1ff;
 
+                transition: .3s;
+            }
+        }
+    }
+
+    .mytable {
+        td {
+            position: relative;
+
+            input {
+                position: absolute;
+
+
+            }
+
+        }
+
+        input {
+            display: inline-block;
+            width: 100%;
+            border: none;
+            border-radius: 3px;
+            padding-left: 10px;
+            outline: none;
+            font-family: "Montserrat", "Roboto";
+            font-size: 14px;
+            background: #f0f8ffd9;
+
+        }
+    }
+    .pen{
+        
+        &:hover{
+            svg{
+                fill: royalblue;
                 transition: .3s;
             }
         }

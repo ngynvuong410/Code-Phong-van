@@ -20,6 +20,9 @@ const User = () => {
   const [listUserToShow, setListUserToShow] = useState([])
   const [searchID, setSearchId] = useState(1)
   const [tab, settab] = useState(1);
+  const [isTag, setisTag] = useState(false);
+  const [idEdit, setidEdit] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +38,7 @@ const User = () => {
     }
 
   }, [])
+
   const handelOnSearch = (str) => {
     let results = []
     if (searchID == '1') {
@@ -74,27 +78,9 @@ const User = () => {
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className='mytable'>
         {
-          listUserToShow?.slice(0, 20).map((item, idx) => {
-
-            return (
-              <tr key={idx} className={'filed_'+item.id}>
-                <td>{idx + 1}</td>
-                <td >{item.id}</td>
-                <td className='allow_change_type' >{item.fullname}</td>
-                <td className='allow_change_type' >{item.age}</td>
-                <td  className={'id_' + item.id} 
-                    style={{ cursor: 'pointer' }}
-                    onClick ={(e)=>handelEditUser(e.target.closest('tr'))}   
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
-                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                  </svg>
-                </td>
-              </tr>
-            )
-          })
+          listUserToShow?.slice(0, 20).map((item, idx) => <RenderUser key={idx} item={item} index={idx} />)
         }
       </tbody>
     </Table>
@@ -219,17 +205,97 @@ const User = () => {
 
     )
   }
-  const handelEditUser = (e)=>{
-        const listNodeDom =e.childNodes
-        if(listNodeDom){
-           listNodeDom?.forEach(element => {
-                 const val =element?.classList.value
-                 if(val =='allow_change_type')  {
-                  console.log([element]);
-                 }
-           });
+
+  const RenderUser = ({ item, index }) => {
+    const [nameEdit, setnameEdit] = useState();
+    const [ageEdit, setageEdit] = useState();
+
+    const handelEditUser = (id) => {
+      setidEdit(id)
+      setisTag(!isTag)
+      //find and compare
+      let item = listUser.find((value, idx) => value?.id == id)
+
+      if (nameEdit !== undefined || ageEdit !== undefined) {
+        if (Number.parseInt(ageEdit) < 6) {
+          alert('Please enter number than 6 !')
+        } else {
+          if (nameEdit !== undefined) {
+            item = { ...item, fullname: nameEdit }
+          }
+          if (ageEdit !== undefined) {
+            item = { ...item, age: ageEdit }
+          }
+          //process array
+          let arr = listUser.filter(el => el.id !== item.id)
+          arr = [...arr, item]
+          //set Location
+           localStorage.setItem('listUser',JSON.stringify(arr))
+           setListUserToShow(arr)
         }
+      }
+    }
+    function getAge(dateString) {
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+    if (item.id === idEdit && isTag) {
+      return (
+        <tr  >
+          <td>{index + 1}</td>
+          <td >{item.id}</td>
+          <td>
+            <input
+              type='text'
+              name='' placeholder={item.fullname}
+              value={nameEdit}
+              onChange={(e) => setnameEdit(e.target.value)}
+            />
+          </td>
+          <td>
+            <input
+              type='date'
+              name=''
+              value={ageEdit}
+              onChange={(e) => setageEdit(getAge(e.target.value))}
+            />
+          </td>
+          <td className={'pen id_' + item.id}
+            style={{ cursor: 'pointer' }}
+            onClick={(e) => handelEditUser(item.id)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
+              <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+            </svg>
+          </td>
+        </tr>
+      )
+    }
+    //render default
+    return (
+      <tr  >
+        <td>{index + 1}</td>
+        <td >{item.id}</td>
+        <td>{item.fullname}</td>
+        <td>{item.age}</td>
+        <td className={'pen id_' + item.id}
+          style={{ cursor: 'pointer' }}
+          onClick={(e) => handelEditUser(item.id)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
+            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+          </svg>
+        </td>
+      </tr>
+    )
   }
+
   return (
     <div className='user-page'>
       <Container>
