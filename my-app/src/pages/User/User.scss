@@ -1,13 +1,15 @@
-.search-form{
-    padding: 15px 0;
-    form{
+.search-form {
+
+    form {
         display: flex;
         align-items: center;
-      
+
     }
-    &__input{
+
+    &__input {
         width: 80%;
-        input{
+
+        input {
             display: inline-block;
             height: 50px;
             width: 100%;
@@ -17,10 +19,11 @@
             border-radius: 3px;
         }
     }
-    select{
+
+    select {
         flex: 1;
         height: 50px;
-        margin:0 10px;
+        margin: 0 10px;
         font-family: "Montserrat", "Roboto";
         font-size: 13px;
         text-transform: capitalize;
@@ -28,10 +31,92 @@
         outline: none;
         border: 1px solid #80808070;
         border-radius: 3px;
-        option{
+
+        option {
             padding: 10px 0;
         }
-       
+
     }
-   
-} 
+
+}
+
+.user-page {
+    padding: 15px 0;
+
+    .toolbar {
+        font-family: "Montserrat", "Roboto";
+        padding-left: 0;
+        background-color: transparent;
+
+        .accordion-body {
+            padding: 0;
+        }
+
+        ul {
+            padding-left: 0;
+            margin-bottom: 0;
+            margin: 10px 0;
+        }
+
+        li,
+        a {
+            list-style: none;
+            padding: 10px 0;
+            cursor: pointer;
+            text-transform: capitalize;
+            font-size: 14px;
+            padding: 15px 25px;
+            transition: .3s;
+            color: #000000c7;
+
+            &:hover {
+                background: #e7f1ff;
+            }
+        }
+
+        a {
+            display: inline-block;
+            width: 100%;
+            padding: 0;
+            text-decoration: none;
+        }
+    }
+
+    .add-user {
+        font-family: "Montserrat", "Roboto";
+
+        h2 {
+            margin-bottom: 0;
+            color: #000000c2;
+        }
+
+        .form-outline {
+            padding: 15px 0;
+        }
+
+        input#birthday {
+            border: 1px solid #8080806e;
+            padding: 10px 15px;
+            outline: none;
+        }
+        p{
+            font-family: "Montserrat", "Roboto";
+            margin-bottom: 0;
+            position: relative;
+            font-size: 13px;
+            color: red;
+        }
+        button {
+            width: 100%;
+            border: 1px solid #8080801c;
+            padding: 15px 20px;
+            border-radius: 3px;
+
+            &:hover {
+                background-color: #e7f1ff;
+
+                transition: .3s;
+            }
+        }
+    }
+}
