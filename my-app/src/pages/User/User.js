@@ -83,15 +83,15 @@ const User = () => {
     }
     //random id
     function makeid(length) {
-      var result           = '';
-      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var result = '';
+      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       var charactersLength = characters.length;
-      for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * 
-   charactersLength));
-     }
-     return result;
-  }
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+          charactersLength));
+      }
+      return result;
+    }
     const checkEmptyFiled = (fullname, age) => {
       const messErr = {}
       if (fullname === '' || fullname === undefined) {
@@ -123,7 +123,7 @@ const User = () => {
         } else {
           let results = [];
           results = JSON.parse(localStorage.getItem('listUser'));
-          const obj = { id: makeid(2).toUpperCase() +Date.now().toString().slice(0,2), fullname: fullname, age: age }
+          const obj = { id: makeid(2).toUpperCase() + Date.now().toString().slice(0, 2), fullname: fullname, age: age }
           results.push(obj)
           localStorage.setItem('listUser', JSON.stringify(results));
           setListUserToShow(results)
@@ -202,10 +202,10 @@ const User = () => {
             item = { ...item, age: ageEdit }
           }
           //process array
-          let arr = listUser.map(value=>{
-               if(value.id ===id){
-                return item
-               }
+          let arr = listUser.map(value => {
+            if (value.id === id) {
+              return item
+            }
             return value
           })
           //set Location
@@ -242,16 +242,16 @@ const User = () => {
             <input
               type='date'
               name=''
-             
+
               onChange={(e) => setageEdit(getAge(e.target.value))}
             />
           </td>
           <td className={'pen id_' + item.id}
             style={{ cursor: 'pointer' }}
-       
+
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16"
-                 onClick={(e) => handelEditUser(item.id)}
+              onClick={(e) => handelEditUser(item.id)}
             >
               <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
             </svg>
@@ -319,36 +319,45 @@ const User = () => {
                         </select>
                       </form>
                     </div>
-                    <Table striped>
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>ID</th>
-                          <th>FULL NAME</th>
-                          <th>AGE</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody className='mytable'> 
-                        {
-                          listUserToShow?.slice(indexPage * 10, (indexPage * 10) + 10).map((item, idx) => <RenderUser key={idx} item={item} index={idx} />)
-                        }
-                      </tbody>
-                    </Table>
-                    <Pagination className='my-pagination'>
-                   
-                      {
-                        Array(numPage + 1).fill().map((value, idx) =>
-                          <Pagination.Item
-                            key={idx}
-                            onClick={() => setindexPage(idx)}
-                          >
-                            {idx + 1}
-                          </Pagination.Item>)
-                      }
-                  
+                    {
+                      listUserToShow?.length > 0 ?
+                        (<>
+                          <Table striped>
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>FULL NAME</th>
+                                <th>AGE</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody className='mytable'>
+                              {
+                                listUserToShow?.slice(indexPage * 10, (indexPage * 10) + 10).map((item, idx) => <RenderUser key={idx} item={item} index={idx} />)
+                              }
+                            </tbody>
+                          </Table>
+                          <Pagination className='my-pagination'>
 
-                    </Pagination>
+                            {
+                              Array(listUserToShow?.length<
+                                10?numPage:numPage+1).fill().map((value, idx) =>
+                                <Pagination.Item
+                                  key={idx}
+                                  onClick={() => setindexPage(idx)}
+                                >
+                                  {idx + 1}
+                                </Pagination.Item>)
+                            }
+
+
+                          </Pagination>
+                        </>) : <div className="alert alert-warning mt-2" role="alert">
+                          No results were found!
+                        </div>
+
+                    }
                   </Row>
                 )
             }
