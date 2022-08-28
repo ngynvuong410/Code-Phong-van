@@ -1,24 +1,14 @@
-import React, { useState } from 'react'
-
+import React, { useState,useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/icon-librarynode.png'
 import './Login.scss'
 
 const Login = () => {
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const [messEmail, setMessEmail] = useState('')
-    const [messPassword, setMessPassword] = useState('')
-   
+    const navigate = useNavigate()
 
-    const handleOnChange = (e) => {
-
-        const { name, value } = e?.target
-        if (name == 'email') {
-            setEmail(value)
-        } else {
-            setPassword(value)
-        }
-    }
+ 
     const handelOnsubmit = (e) => {
         e.preventDefault()
         const isBool = email.toLowerCase()
@@ -35,18 +25,15 @@ const Login = () => {
             
         }else{
             setMessEmail('')
+            const token =Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('token',token)
+            const isToken = localStorage.getItem('token')
+            console.log(isToken);
+            if(isToken !==null){
+                navigate('/User')
+            }
         }
-        //PASSWORD
-        if(password ===''){
-            setMessPassword('This filed is required!')
-       
-        }else{
-            setMessPassword('')
-        }
-       if(messEmail==''&&messPassword==''&&email!==''&&password!==''){
-     
-        localStorage.setItem('user', JSON.stringify({email,password}));
-       }
+  
     }
     
     return (
@@ -61,16 +48,12 @@ const Login = () => {
                 <form onSubmit={handelOnsubmit} >
 
                     <input name="email"
-                        onChange={e => handleOnChange(e)}
+                        onChange={e =>setEmail(e.target.value)}
                         value={email}
                     />
                     <p className='mess'>{messEmail}</p>
-                    <input name="password"
-                        onChange={e => handleOnChange(e)}
-                        value={password}
-                    />
-                    <p className='mess'>{messPassword}</p>
-                    <input type='submit' defaultValue='Login' />
+                 
+                    <input type='submit'   value='GO' />
                 </form>
             </div>
         </div>

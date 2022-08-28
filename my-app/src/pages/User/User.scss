@@ -42,7 +42,9 @@
 
 .user-page {
     padding: 15px 0;
-
+    .my-pagination{
+        justify-content: center;
+    }
     .toolbar {
         font-family: "Montserrat", "Roboto";
         padding-left: 0;
@@ -125,7 +127,7 @@
     .mytable {
         td {
             position: relative;
-
+            text-transform: uppercase;
             input {
                 position: absolute;
 
@@ -148,7 +150,7 @@
         }
     }
     .pen{
-        
+        text-align: center;
         &:hover{
             svg{
                 fill: royalblue;
@@ -156,4 +158,35 @@
             }
         }
     }
+    select{
+   
+        border: none;
+        padding: 0 1em 0 0;
+        margin: 0;
+        width: 100%;
+        font-family: inherit;
+        font-size: inherit;
+        cursor: inherit;
+        line-height: inherit;
+        option{
+            border-radius: none;
+        }
+        &::-ms-expand {
+            display: none;
+          }
+    }
+    @media (max-width: 768px) { 
+        .toolbar{
+            margin: 10px 0;
+        }
+        .search-form {
+            form{
+                flex-direction: column-reverse;
+            }
+            &__input{
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+     }
 }
